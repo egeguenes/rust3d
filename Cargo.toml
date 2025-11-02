@@ -1,0 +1,13 @@
+[package]
+name = "rust3d"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+path = "src/main.rs"
+name = "rustcg"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]

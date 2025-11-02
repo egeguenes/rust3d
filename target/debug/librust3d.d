@@ -1,0 +1,1 @@
+/Users/egunes/github_intern/rust3d/target/debug/librust3d.rlib: /Users/egunes/github_intern/rust3d/src/lib.rs /Users/egunes/github_intern/rust3d/src/mathlib/mod.rs /Users/egunes/github_intern/rust3d/src/mathlib/vector3d.rs
