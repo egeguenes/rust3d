@@ -1,5 +1,6 @@
-use std::ops;
+use std::{fmt, ops};
 use std::process::exit;
+use std::f32::EPSILON;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Vector3d {
@@ -43,9 +44,23 @@ impl Vector3d {
         self.x*rhs.x + self.y*rhs.y + self.z*rhs.z
     }
 
-    // TODO
-    // pub fn cross(&self, rhs: Vector3d)
+    pub fn cross(&self, rhs: Vector3d) -> Vector3d {
+        Vector3d {
+            x: self.y * rhs.z - self.z * rhs.y,
+            y: self.z * rhs.x - self.x * rhs.z,
+            z: self.x * rhs.y - self.y * rhs.x
+        }
+    }
 }
+
+impl PartialEq for Vector3d {
+    fn eq(&self, other: &Self) -> bool {
+        (self.x - other.x).abs() < EPSILON &&
+        (self.y - other.y).abs() < EPSILON &&
+        (self.z - other.z).abs() < EPSILON
+    }
+}
+impl Eq for Vector3d {}
 
 impl ops::Add<Vector3d> for Vector3d {
     type Output = Vector3d;
@@ -67,6 +82,26 @@ impl ops::AddAssign<Vector3d> for Vector3d {
     }
 }
 
+impl ops::Sub<Vector3d> for Vector3d {
+    type Output = Vector3d;
+
+    fn sub(self, rhs: Vector3d) -> Vector3d {
+        Vector3d {
+            x: self.x - rhs.x,
+            y: self.y - rhs.y,
+            z: self.z - rhs.z,
+        }
+    }
+}
+
+impl ops::SubAssign<Vector3d> for Vector3d {
+    fn sub_assign(&mut self, rhs: Vector3d) {
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+        self.z -= rhs.z;
+    }
+}
+
 impl ops::Div<f32> for Vector3d {
     type Output = Vector3d;
 
@@ -80,5 +115,55 @@ impl ops::Div<f32> for Vector3d {
             y: self.y / len,
             z: self.z / len,
         }
+    }
+}
+
+impl ops::Mul<f32> for Vector3d {
+    type Output = Vector3d;
+
+    fn mul(self, rhs: f32) -> Vector3d {
+        Vector3d {
+            x: self.x * rhs,
+            y: self.y * rhs,
+            z: self.z * rhs,
+        }
+    }
+}
+
+impl ops::Mul<Vector3d> for f32 {
+    type Output = Vector3d;
+
+    fn mul(self, rhs: Vector3d) -> Vector3d {
+        rhs * self
+    }
+}
+
+impl ops::Mul<Vector3d> for Vector3d {
+    type Output = Vector3d;
+
+    fn mul(self, rhs: Vector3d) -> Vector3d {
+        Vector3d {
+            x: self.x * rhs.x,
+            y: self.y * rhs.y,
+            z: self.z * rhs.z,
+        }
+    }
+}
+
+impl ops::Neg for Vector3d {
+    type Output = Vector3d;
+
+    fn neg(self) -> Vector3d {
+        Vector3d {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+        }
+    }
+}
+
+impl fmt::Display for Vector3d {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Vector is ({}, {}, {})", self.x, self.y, self.z)
     }
 }

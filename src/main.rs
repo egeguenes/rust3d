@@ -1,4 +1,6 @@
 use rust3d::mathlib::vector3d::Vector3d;
+use rust3d::mathlib::ray::Ray;
+use rust3d::camera::camera::Camera;
 
 fn main() {
     let mut vector1 = Vector3d::new(1.0, 1.0, 1.0);
@@ -15,5 +17,9 @@ fn main() {
     let squared2 = vector2.length_squared();
     println!("Len should be sqrt(50) and is {}", length2);
     println!("Squared should be 50 and is {}", squared2);
+
+    let my_vec = vector1.cross(vector2);
+    println!();
+    println!("cross product of {}\t and {} is \n{}", vector1, vector2, my_vec);
 
 }
